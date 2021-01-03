@@ -54,7 +54,7 @@ def naked_twins(values):
     https://github.com/udacity/artificial-intelligence/blob/master/Projects/1_Sudoku/pseudocode.md
     """
     # TODO: Implement this function!
-    raise NotImplementedError
+    return values
 
 
 def eliminate(values):
@@ -115,8 +115,7 @@ def reduce_puzzle(values):
         The values dictionary after continued application of the constraint strategies
         no longer produces any changes, or False if the puzzle is unsolvable 
     """
-    # TODO: Copy your code from the classroom and modify it to complete this function
-    raise NotImplementedError
+    return values
 
 
 def search(values):
@@ -138,9 +137,29 @@ def search(values):
     You should be able to complete this function by copying your code from the classroom
     and extending it to call the naked twins strategy.
     """
-    # TODO: Copy your code from the classroom to complete this function
-    raise NotImplementedError
+    
+    # apply naked_twin strategy first and then reduce_puzzle. 
+    # this will be the complete the reduction phase.
+    values = naked_twins(values)
+    values = reduce_puzzle(values)
 
+    # check if its solved.
+    if(values is False):
+        return False
+
+    is_solved :bool = all([len(boxes[bx]) == 1 for bx in boxes])
+    if(is_solved):
+        return values
+
+    # if its not solved apply dfs from by selecting an unsolved box with minimum number of options.
+    selected_bx :str = min([bx for bx in boxes if len(bx) > 1], key = lambda t: len(t))
+    
+    for option in values[selected_bx]:
+        new_sudoku = values.copy()
+        new_sudoku[selected_bx] = option
+        attempt = search(new_sudoku)
+        if attempt:
+            return attempt
 
 def solve(grid):
     """Find the solution to a Sudoku puzzle using search and constraint propagation
