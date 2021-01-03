@@ -57,8 +57,22 @@ def naked_twins(values):
     https://github.com/udacity/artificial-intelligence/blob/master/Projects/1_Sudoku/pseudocode.md
     """
     # TODO: Implement this function!
-    return values
+    values_copy = values.copy()
 
+    for boxA in values.keys():
+        for boxB in peers[boxA]:
+            ASolnCount = len(values[boxA])
+            BSolnCount = len(values[boxB])
+
+            if(ASolnCount == 2 and BSolnCount == 2 and values[boxA] == values[boxB]):
+                common_peers = set(peers[boxA]).intersection(set(peers[boxB])) 
+                for peer in common_peers:
+                    if(len(values[peer]) == 1):
+                        continue
+                    for digit in values[boxA]:
+                        values_copy[peer] = values_copy[peer].replace(digit, '')
+                        
+    return values_copy
 
 def eliminate(values):
     """Apply the eliminate strategy to a Sudoku puzzle
