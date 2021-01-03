@@ -73,9 +73,14 @@ def eliminate(values):
     dict
         The values dictionary with the assigned values eliminated from peers
     """
-    # TODO: Copy your code from the classroom to complete this function
-    raise NotImplementedError
+    
+    solved_boxes = [box for box in values.keys if len(values[box]) == 1]
+    
+    for box in solved_boxes:
+        for peer_bx in peers[box]:
+            values[peer_bx] = values[peer_bx].replace(values[box], '')
 
+    return values
 
 def only_choice(values):
     """Apply the only choice strategy to a Sudoku puzzle
