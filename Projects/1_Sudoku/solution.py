@@ -74,7 +74,7 @@ def eliminate(values):
         The values dictionary with the assigned values eliminated from peers
     """
     
-    solved_boxes = [box for box in values.keys if len(values[box]) == 1]
+    solved_boxes = [box for box in values.keys() if len(values[box]) == 1]
     
     for box in solved_boxes:
         for peer_bx in peers[box]:
@@ -129,13 +129,13 @@ def reduce_puzzle(values):
     """
     
     # use elminate and only_choice strategy one after the other and then check for stalling.
-    stalled :bool = False
+    stalled = False
 
     while(not stalled):
-        before_state = len([box for box in values.keys if len(values[box]) == 1])
+        before_state = len([box for box in values.keys() if len(values[box]) == 1])
         eliminate(values)
         only_choice(values)
-        after_state = len([box for box in values.keys if len(values[box]) == 1])
+        after_state = len([box for box in values.keys() if len(values[box]) == 1])
         if(not state_changed(before_state, after_state)):
             stalled = True        
 
@@ -174,12 +174,12 @@ def search(values):
         return False
 
     # check if solved.
-    is_solved :bool = all([len(boxes[bx]) == 1 for bx in boxes])
+    is_solved = all(len(values[s]) == 1 for s in boxes)
     if(is_solved):
         return values
 
     # if its not solved apply dfs from by selecting an unsolved box with minimum number of options.
-    selected_bx :str = min([bx for bx in boxes if len(bx) > 1], key = lambda t: len(t))
+    selected_bx = min([bx for bx in boxes if len(bx) > 1], key = lambda t: len(t))
     
     for option in values[selected_bx]:
         new_sudoku = values.copy()
