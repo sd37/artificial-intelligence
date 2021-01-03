@@ -181,7 +181,8 @@ def search(values):
         return values
 
     # if its not solved apply dfs from by selecting an unsolved box with minimum number of options.
-    selected_bx = min([bx for bx in boxes if len(bx) > 1], key = lambda t: len(t))
+    unsolved_bxs = [bx for bx in values.keys() if len(values[bx]) > 1]
+    selected_bx = min(unsolved_bxs, key = lambda bx: len(values[bx]))
     
     for option in values[selected_bx]:
         new_sudoku = values.copy()
