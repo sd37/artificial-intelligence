@@ -115,8 +115,22 @@ def reduce_puzzle(values):
         The values dictionary after continued application of the constraint strategies
         no longer produces any changes, or False if the puzzle is unsolvable 
     """
+    
+    # use elminate and only_choice strategy one after the other and then check for stalling.
+    stalled :bool = False
+
+    while(not stalled):
+        before_state = len([box for box in values.keys if len(values[box]) == 1])
+        eliminate(values)
+        only_choice(values)
+        after_state = len([box for box in values.keys if len(values[box]) == 1])
+        if(not state_changed(before_state, after_state)):
+            stalled = True        
+
     return values
 
+def state_changed(before_state, after_state):
+    return before_state != after_state
 
 def search(values):
     """Apply depth first search to solve Sudoku puzzles in order to solve puzzles
@@ -143,10 +157,11 @@ def search(values):
     values = naked_twins(values)
     values = reduce_puzzle(values)
 
-    # check if its solved.
-    if(values is False):
+    # check if not able to solve... then backtrack and use dfs for a new option.
+    if(not values):
         return False
 
+    # check if solved.
     is_solved :bool = all([len(boxes[bx]) == 1 for bx in boxes])
     if(is_solved):
         return values
