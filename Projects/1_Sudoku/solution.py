@@ -138,7 +138,9 @@ def reduce_puzzle(values):
         after_state = len([box for box in values.keys() if len(values[box]) == 1])
         if(not state_changed(before_state, after_state)):
             stalled = True        
-
+        # Sanity check, return False if there is a box with zero available values:
+        if len([box for box in values.keys() if len(values[box]) == 0]):
+            return False
     return values
 
 def state_changed(before_state, after_state):
