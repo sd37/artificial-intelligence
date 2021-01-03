@@ -102,9 +102,16 @@ def only_choice(values):
     -----
     You should be able to complete this function by copying your code from the classroom
     """
-    # TODO: Copy your code from the classroom to complete this function
-    raise NotImplementedError
 
+    # pick some digit from the set "123456789".
+    # Next answer the question how many boxes can this digit be assigned to ?
+    # if the answer is 1 then assign that digit to that box.
+    for unit in unitlist:
+        for digit in '123456789':
+            possible_boxes = [box for box in unit if digit in values[box]]
+            if len(possible_boxes) == 1:
+                values[possible_boxes[0]] = digit
+    return values
 
 def reduce_puzzle(values):
     """Reduce a Sudoku puzzle by repeatedly applying all constraint strategies
