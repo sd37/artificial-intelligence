@@ -1,4 +1,4 @@
-# some code have been picked up from solution of lecture quizzes and exercises in udacities classroom.
+# some code and pseudo code have been picked up from lecture notes and solutions for quizzes and exercises in udacities classroom.
 from utils import *
 
 
