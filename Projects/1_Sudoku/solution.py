@@ -176,7 +176,7 @@ def search(values):
         return False
 
     # check if solved.
-    is_solved = all(len(values[s]) == 1 for s in boxes)
+    is_solved = all([len(values[box]) == 1 for box in boxes])
     if(is_solved):
         return values
 
