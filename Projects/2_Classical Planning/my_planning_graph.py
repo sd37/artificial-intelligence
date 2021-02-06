@@ -189,20 +189,20 @@ class PlanningGraph:
         level = 0
         while not self._is_leveled:
             layer = self.literal_layers[-1]
-            if self.SeenAllGoals(layer) and self.NoMutex(layer):
+            if self.seen_all_goals(layer) and self.no_mutex(layer):
                 return level
             self._extend()
             level += 1
         return -1
 
 
-    def SeenAllGoals(self, layer):
+    def seen_all_goals(self, layer):
         for goal_state in self.goal:
             if goal_state not in layer:
                 return False
         return True
 
-    def NoMutex(self, layer):
+    def no_mutex(self, layer):
         for goal_state1,goal_state2 in combinations(self.goal,2):
             if layer.is_mutex(goal_state1,goal_state2):
                 return False
